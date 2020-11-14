@@ -18,7 +18,7 @@ function downloader () {
 #set -x
 cd /home/nym1/
 # set vars for version checking and url to download the latest release of nym-mixnode1
-VERSION=$(curl https://github.com/nymtech/nym/releases/latest --cacert /etc/ssl/certs/ca-certificates1.crt 2>/dev/null | egrep -o "[0-9|\.]{5}(-\w+)?")
+VERSION=$(curl https://github.com/nymtech/nym/releases/latest --cacert /etc/ssl/certs/ca-certificates.crt 2>/dev/null | egrep -o "[0-9|\.]{5}(-\w+)?")
 URL="https://github.com/nymtech/nym/releases/download/v$VERSION/nym-mixnode_linux_x86_64"
 
 # Check if the version is up to date. If not, fetch the latest release.
@@ -26,9 +26,9 @@ if [ ! -f nym-mixnode_linux_x86_64 ] || [ "$(./nym-mixnode_linux_x86_64 --versio
    then
        if systemctl list-units --state=running | grep nym-mixnode1
           then echo "stopping nym-mixnode1.service to update the node ..." && systemctl stop nym-mixnode1
-                curl -L -s "$URL" -o "nym-mixnode_linux_x86_64" --cacert /etc/ssl/certs/ca-certificates1.crt && echo "Fetching the latest version" && pwd
+                curl -L -s "$URL" -o "nym-mixnode_linux_x86_64" --cacert /etc/ssl/certs/ca-certificates.crt && echo "Fetching the latest version" && pwd
           else echo " nym-mixnode1.service is inactive or not existing. Downloading new binaries ..." && pwd
-    		curl -L -s "$URL" -o "nym-mixnode_linux_x86_64" --cacert /etc/ssl/certs/ca-certificates1.crt && echo "Fetching the latest version" && pwd
+    		curl -L -s "$URL" -o "nym-mixnode_linux_x86_64" --cacert /etc/ssl/certs/ca-certificates.crt && echo "Fetching the latest version" && pwd
 	   # Make it executable
    chmod +x ./nym-mixnode_linux_x86_64 && chown nym1:nym1 ./nym-mixnode_linux_x86_64
    fi
